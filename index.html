@@ -1,1062 +1,610 @@
 <!DOCTYPE html>
 
-<!-- AstroGR10 v3 - 2026-03-26 20:15 ARG -->
+<!-- AstroGR10 v4 - 2026-03-26 21:00 ARG -->
 
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>AstroGR10</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
 
 ```
     :root {
-        --bg: #000000;
-        --bg2: #0a0a0a;
-        --bg3: #111111;
-        --card: #0d0d0d;
-        --border: #1a1a1a;
-        --text: #ffffff;
-        --text2: #888888;
-        --text3: #555555;
-        --blue: #3b82f6;
-        --green: #22c55e;
-        --orange: #f59e0b;
-        --red: #ef4444;
-        --purple: #a855f7;
+        --black: #000000;
+        --card: #1c1c1e;
+        --card2: #2c2c2e;
+        --gray1: #8e8e93;
+        --gray2: #636366;
+        --gray3: #48484a;
+        --white: #ffffff;
+        --blue: #0a84ff;
+        --green: #30d158;
+        --orange: #ff9f0a;
+        --red: #ff453a;
+        --purple: #bf5af2;
+        --safe-top: env(safe-area-inset-top);
+        --safe-bottom: env(safe-area-inset-bottom);
     }
     
-    body {
-        font-family: 'Inter', system-ui, sans-serif;
-        background: var(--bg);
-        color: var(--text);
-        font-size: 16px;
-        line-height: 1.5;
+    html, body {
+        background: var(--black);
+        color: var(--white);
+        font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+        font-size: 17px;
+        line-height: 1.4;
         min-height: 100vh;
+        min-height: -webkit-fill-available;
     }
     
     .app {
-        max-width: 800px;
-        margin: 0 auto;
         padding: 16px;
+        padding-top: calc(16px + var(--safe-top));
+        padding-bottom: calc(80px + var(--safe-bottom));
+        max-width: 500px;
+        margin: 0 auto;
     }
     
     /* Header */
-    header {
+    .header {
+        margin-bottom: 24px;
+    }
+    
+    .header-top {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 16px;
-        background: var(--bg2);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        margin-bottom: 16px;
+        margin-bottom: 4px;
     }
     
     .logo {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: var(--blue);
-    }
-    
-    .location {
-        font-size: 0.9rem;
-        color: var(--text2);
-        margin-top: 4px;
+        font-size: 28px;
+        font-weight: 600;
+        letter-spacing: -0.5px;
     }
     
     .time {
-        font-size: 1.1rem;
-        font-weight: 600;
+        font-size: 15px;
+        color: var(--gray1);
+        font-variant-numeric: tabular-nums;
     }
     
-    .btn {
-        background: var(--bg3);
-        border: 1px solid var(--border);
-        color: var(--text2);
-        padding: 8px 14px;
-        border-radius: 8px;
-        font-size: 0.9rem;
-        cursor: pointer;
-        margin-top: 8px;
+    .location {
+        font-size: 13px;
+        color: var(--gray2);
     }
     
-    .btn:active { background: var(--border); }
-    
-    /* Filtros */
-    .filters {
+    /* Pills */
+    .pills {
         display: flex;
         gap: 8px;
-        margin-bottom: 16px;
         overflow-x: auto;
-        padding-bottom: 8px;
+        padding: 4px 0;
+        margin: 0 -16px;
+        padding-left: 16px;
+        padding-right: 16px;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
     }
     
-    .filter {
-        background: var(--bg2);
-        border: 1px solid var(--border);
-        color: var(--text2);
-        padding: 10px 16px;
-        border-radius: 24px;
-        font-size: 0.95rem;
-        cursor: pointer;
+    .pills::-webkit-scrollbar { display: none; }
+    
+    .pill {
+        background: var(--card);
+        border: none;
+        color: var(--gray1);
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 15px;
+        font-weight: 500;
         white-space: nowrap;
+        cursor: pointer;
+        transition: all 0.2s;
     }
     
-    .filter.active {
-        background: var(--blue);
-        border-color: var(--blue);
-        color: white;
+    .pill.active {
+        background: var(--white);
+        color: var(--black);
     }
     
-    /* Info */
-    .info-bar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 16px;
-        color: var(--text2);
-        font-size: 0.95rem;
+    /* Count */
+    .count {
+        font-size: 13px;
+        color: var(--gray2);
+        margin: 20px 0 12px;
     }
     
-    .sort {
-        background: var(--bg2);
-        border: 1px solid var(--border);
-        color: var(--text);
-        padding: 8px 12px;
-        border-radius: 8px;
-        font-size: 0.9rem;
-    }
-    
-    /* Grid */
-    .grid {
+    /* Cards */
+    .cards {
         display: flex;
         flex-direction: column;
         gap: 12px;
     }
     
-    /* Card */
     .card {
         background: var(--card);
-        border: 1px solid var(--border);
         border-radius: 16px;
         overflow: hidden;
         cursor: pointer;
+        transition: transform 0.2s, opacity 0.2s;
     }
     
-    .card:active { border-color: var(--blue); }
+    .card:active {
+        transform: scale(0.98);
+        opacity: 0.9;
+    }
     
     .card-img {
         width: 100%;
-        height: 160px;
+        height: 140px;
         object-fit: cover;
-        background: var(--bg3);
+        background: var(--card2);
     }
     
-    .card-body { padding: 16px; }
+    .card-body {
+        padding: 14px 16px 16px;
+    }
     
-    .card-top {
+    .card-row1 {
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
-        margin-bottom: 8px;
+        margin-bottom: 6px;
     }
     
     .card-name {
-        font-size: 1.25rem;
+        font-size: 20px;
         font-weight: 600;
+        letter-spacing: -0.3px;
     }
+    
+    .card-type {
+        font-size: 12px;
+        font-weight: 500;
+        padding: 4px 8px;
+        border-radius: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+    }
+    
+    .type-planeta { background: rgba(255,159,10,0.2); color: var(--orange); }
+    .type-nebulosa { background: rgba(191,90,242,0.2); color: var(--purple); }
+    .type-galaxia { background: rgba(10,132,255,0.2); color: var(--blue); }
+    .type-cumulo { background: rgba(48,209,88,0.2); color: var(--green); }
+    .type-estrella { background: rgba(255,69,58,0.2); color: var(--red); }
     
     .card-cat {
-        font-size: 0.85rem;
-        color: var(--blue);
-        margin-top: 2px;
-    }
-    
-    .badge {
-        font-size: 0.75rem;
-        padding: 4px 10px;
-        border-radius: 6px;
-        font-weight: 500;
-        background: rgba(255,255,255,0.05);
-        color: var(--text2);
-    }
-    
-    .badge-planeta { background: rgba(245,158,11,0.15); color: var(--orange); }
-    .badge-nebulosa { background: rgba(168,85,247,0.15); color: var(--purple); }
-    .badge-galaxia { background: rgba(59,130,246,0.15); color: var(--blue); }
-    .badge-cumulo { background: rgba(34,197,94,0.15); color: var(--green); }
-    .badge-estrella { background: rgba(239,68,68,0.15); color: var(--red); }
-    
-    .card-meta {
-        display: flex;
-        gap: 16px;
-        font-size: 0.9rem;
-        color: var(--text2);
+        font-size: 14px;
+        color: var(--gray1);
         margin-bottom: 12px;
     }
     
-    .card-foot {
+    .card-row2 {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding-top: 12px;
-        border-top: 1px solid var(--border);
+        gap: 16px;
+        font-size: 14px;
+        color: var(--gray2);
+        margin-bottom: 14px;
     }
     
-    .vis {
+    .card-status {
         display: flex;
         align-items: center;
         gap: 8px;
-        font-size: 0.95rem;
-        font-weight: 500;
+        padding-top: 12px;
+        border-top: 1px solid var(--gray3);
     }
     
-    .vis-dot {
-        width: 10px;
-        height: 10px;
+    .status-dot {
+        width: 8px;
+        height: 8px;
         border-radius: 50%;
     }
     
-    .vis.yes { color: var(--green); }
-    .vis.yes .vis-dot { background: var(--green); box-shadow: 0 0 8px var(--green); }
-    
-    .vis.soon { color: var(--orange); }
-    .vis.soon .vis-dot { background: var(--orange); }
-    
-    .vis.no { color: var(--text3); }
-    .vis.no .vis-dot { background: var(--text3); }
-    
-    .card-time {
-        font-size: 0.85rem;
-        color: var(--text3);
-        margin-top: 8px;
+    .status-visible .status-dot {
+        background: var(--green);
+        box-shadow: 0 0 8px var(--green);
     }
     
-    .diff {
-        display: flex;
-        gap: 3px;
+    .status-tonight .status-dot {
+        background: var(--orange);
     }
     
-    .diff span {
-        width: 4px;
-        height: 14px;
-        background: var(--border);
-        border-radius: 2px;
+    .status-no .status-dot {
+        background: var(--gray3);
     }
     
-    .diff.d1 span:nth-child(1) { background: var(--green); }
-    .diff.d2 span:nth-child(1), .diff.d2 span:nth-child(2) { background: var(--orange); }
-    .diff.d3 span { background: var(--red); }
+    .status-text {
+        font-size: 14px;
+        font-weight: 500;
+    }
+    
+    .status-visible .status-text { color: var(--green); }
+    .status-tonight .status-text { color: var(--orange); }
+    .status-no .status-text { color: var(--gray2); }
+    
+    .status-time {
+        margin-left: auto;
+        font-size: 13px;
+        color: var(--gray2);
+        font-variant-numeric: tabular-nums;
+    }
+    
+    /* Empty */
+    .empty {
+        text-align: center;
+        padding: 60px 20px;
+        color: var(--gray2);
+    }
+    
+    .empty-icon {
+        font-size: 48px;
+        margin-bottom: 16px;
+        opacity: 0.5;
+    }
     
     /* Modal */
-    .modal-bg {
-        display: none;
+    .modal {
         position: fixed;
         inset: 0;
-        background: rgba(0,0,0,0.95);
+        background: var(--black);
         z-index: 100;
         overflow-y: auto;
+        display: none;
+        opacity: 0;
+        transition: opacity 0.3s;
     }
     
-    .modal-bg.open { display: block; }
-    
-    .modal {
-        background: var(--bg2);
-        max-width: 600px;
-        margin: 0 auto;
-        min-height: 100vh;
+    .modal.open {
+        display: block;
+        opacity: 1;
     }
     
     .modal-img {
         width: 100%;
-        height: 220px;
+        height: 280px;
         object-fit: cover;
-        background: var(--bg);
+        background: var(--card);
     }
     
-    .modal-body { padding: 20px; }
-    
-    .modal-head {
+    .modal-close {
+        position: absolute;
+        top: calc(16px + var(--safe-top));
+        right: 16px;
+        width: 32px;
+        height: 32px;
+        background: rgba(0,0,0,0.5);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: none;
+        border-radius: 50%;
+        color: var(--white);
+        font-size: 20px;
+        cursor: pointer;
         display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        margin-bottom: 20px;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .modal-body {
+        padding: 20px 16px;
+        padding-bottom: calc(40px + var(--safe-bottom));
+    }
+    
+    .modal-header {
+        margin-bottom: 24px;
     }
     
     .modal-name {
-        font-size: 1.6rem;
-        font-weight: 700;
+        font-size: 28px;
+        font-weight: 600;
+        letter-spacing: -0.5px;
+        margin-bottom: 4px;
     }
     
     .modal-cat {
-        font-size: 1rem;
-        color: var(--blue);
-        margin-top: 4px;
-    }
-    
-    .close {
-        background: var(--bg3);
-        border: none;
-        color: var(--text);
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        font-size: 1.5rem;
-        cursor: pointer;
+        font-size: 15px;
+        color: var(--gray1);
     }
     
     .info-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 12px;
-        margin-bottom: 24px;
+        margin-bottom: 28px;
     }
     
     .info-box {
-        background: var(--bg3);
+        background: var(--card);
         padding: 14px;
-        border-radius: 10px;
+        border-radius: 12px;
     }
     
     .info-label {
-        font-size: 0.75rem;
-        color: var(--text3);
+        font-size: 12px;
+        color: var(--gray2);
         text-transform: uppercase;
         letter-spacing: 0.5px;
         margin-bottom: 4px;
     }
     
-    .info-val {
-        font-size: 1.05rem;
+    .info-value {
+        font-size: 17px;
         font-weight: 500;
     }
     
     .section {
-        margin-bottom: 24px;
+        margin-bottom: 28px;
     }
     
     .section-title {
-        font-size: 1rem;
+        font-size: 13px;
         font-weight: 600;
-        color: var(--text2);
-        margin-bottom: 12px;
+        color: var(--gray2);
         text-transform: uppercase;
         letter-spacing: 0.5px;
+        margin-bottom: 12px;
     }
     
     .section-text {
-        font-size: 1.05rem;
-        line-height: 1.7;
-    }
-    
-    .tips {
-        background: var(--bg3);
-        padding: 16px;
-        border-radius: 12px;
-        border-left: 4px solid var(--blue);
-    }
-    
-    .tips li {
-        margin-bottom: 10px;
-        font-size: 1rem;
+        font-size: 16px;
         line-height: 1.6;
+        color: var(--white);
     }
     
-    .tips li:last-child { margin-bottom: 0; }
+    .tips-box {
+        background: var(--card);
+        border-radius: 12px;
+        overflow: hidden;
+    }
     
-    .facts {
+    .tip {
+        padding: 14px 16px;
+        font-size: 15px;
+        line-height: 1.5;
+        border-bottom: 1px solid var(--gray3);
+        display: flex;
+        gap: 12px;
+    }
+    
+    .tip:last-child { border-bottom: none; }
+    
+    .tip-icon {
+        color: var(--blue);
+        font-size: 14px;
+        margin-top: 2px;
+    }
+    
+    .facts-grid {
         display: flex;
         flex-direction: column;
         gap: 8px;
     }
     
     .fact {
-        background: var(--bg3);
+        background: var(--card);
         padding: 12px 14px;
         border-radius: 10px;
-        font-size: 0.95rem;
-        color: var(--text2);
+        font-size: 14px;
+        color: var(--gray1);
+        line-height: 1.5;
     }
     
-    /* Astro panel */
-    .astro {
-        background: var(--bg2);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        margin-top: 20px;
-        overflow: hidden;
-    }
-    
-    .astro-head {
-        padding: 14px 16px;
-        cursor: pointer;
+    /* Footer nav */
+    .nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(28,28,30,0.9);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-top: 1px solid var(--gray3);
+        padding: 12px 20px;
+        padding-bottom: calc(12px + var(--safe-bottom));
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
+    }
+    
+    .nav-btn {
+        background: none;
+        border: none;
+        color: var(--gray2);
+        font-size: 12px;
+        display: flex;
+        flex-direction: column;
         align-items: center;
+        gap: 4px;
+        cursor: pointer;
     }
     
-    .astro-head h3 {
-        font-size: 0.95rem;
-        font-weight: 500;
-        color: var(--text2);
-    }
+    .nav-btn.active { color: var(--blue); }
     
-    .astro-body {
-        display: none;
-        padding: 16px;
-        border-top: 1px solid var(--border);
-    }
-    
-    .astro.open .astro-body { display: block; }
-    
-    .astro-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 12px;
-    }
-    
-    .astro-item {
-        text-align: center;
-        padding: 12px;
-        background: var(--bg3);
-        border-radius: 10px;
-    }
-    
-    .astro-icon { font-size: 1.5rem; margin-bottom: 6px; }
-    .astro-label { font-size: 0.75rem; color: var(--text3); }
-    .astro-val { font-size: 0.95rem; font-weight: 500; margin-top: 2px; }
-    
-    footer {
-        text-align: center;
-        padding: 24px;
-        color: var(--text3);
-        font-size: 0.85rem;
-    }
-    
-    .loading {
-        text-align: center;
-        padding: 60px 20px;
-        color: var(--text2);
-    }
-    
-    @media (max-width: 500px) {
-        .astro-grid { grid-template-columns: repeat(2, 1fr); }
-    }
+    .nav-icon { font-size: 24px; }
 </style>
 ```
 
 </head>
 <body>
     <div class="app">
-        <header>
-            <div>
+        <header class="header">
+            <div class="header-top">
                 <div class="logo">AstroGR10</div>
-                <div class="location" id="loc">📍 Obteniendo ubicación...</div>
+                <div class="time" id="time">--:--</div>
             </div>
-            <div style="text-align:right">
-                <div class="time" id="clock">--:--</div>
-                <button class="btn" onclick="getLoc()">Actualizar GPS</button>
-            </div>
+            <div class="location" id="loc">📍 Cargando ubicación...</div>
         </header>
 
 ```
-    <div class="filters" id="filters">
-        <button class="filter active" data-f="visible">🌟 Visibles</button>
-        <button class="filter" data-f="all">Todos</button>
-        <button class="filter" data-f="planeta">🪐 Planetas</button>
-        <button class="filter" data-f="nebulosa">☁️ Nebulosas</button>
-        <button class="filter" data-f="galaxia">🌀 Galaxias</button>
-        <button class="filter" data-f="cumulo">✨ Cúmulos</button>
-        <button class="filter" data-f="estrella">⭐ Estrellas</button>
+    <div class="pills" id="pills">
+        <button class="pill active" data-f="visible">Visibles</button>
+        <button class="pill" data-f="all">Todos</button>
+        <button class="pill" data-f="planeta">Planetas</button>
+        <button class="pill" data-f="nebulosa">Nebulosas</button>
+        <button class="pill" data-f="galaxia">Galaxias</button>
+        <button class="pill" data-f="cumulo">Cúmulos</button>
+        <button class="pill" data-f="estrella">Estrellas</button>
     </div>
     
-    <div class="info-bar">
-        <span id="count">Cargando...</span>
-        <select class="sort" id="sort" onchange="render()">
-            <option value="vis">Por visibilidad</option>
-            <option value="mag">Por brillo</option>
-            <option value="name">Por nombre</option>
-        </select>
-    </div>
+    <div class="count" id="count"></div>
     
-    <div class="grid" id="grid">
-        <div class="loading">Calculando visibilidad...</div>
-    </div>
-    
-    <div class="astro" id="astro">
-        <div class="astro-head" onclick="this.parentElement.classList.toggle('open')">
-            <h3>🔭 Condiciones de observación</h3>
-            <span style="color:var(--text3)">▼</span>
-        </div>
-        <div class="astro-body" id="astroBody"></div>
-    </div>
-    
-    <footer>AstroGR10 · Celestron 127 EQ</footer>
+    <div class="cards" id="cards"></div>
 </div>
 
-<div class="modal-bg" id="modal">
-    <div class="modal">
-        <img class="modal-img" id="mImg" src="">
-        <div class="modal-body" id="mBody"></div>
-    </div>
+<nav class="nav">
+    <button class="nav-btn active" onclick="setFilter('visible')">
+        <span class="nav-icon">🌟</span>
+        <span>Visibles</span>
+    </button>
+    <button class="nav-btn" onclick="setFilter('all')">
+        <span class="nav-icon">🔭</span>
+        <span>Catálogo</span>
+    </button>
+    <button class="nav-btn" onclick="getLoc()">
+        <span class="nav-icon">📍</span>
+        <span>GPS</span>
+    </button>
+</nav>
+
+<div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <img class="modal-img" id="mImg">
+    <div class="modal-body" id="mBody"></div>
 </div>
 ```
 
 <script>
-// ========== CATÁLOGO ==========
-const OBJ = [
-// Planetas - coordenadas aproximadas para Marzo 2026
-{id:'luna',n:'Luna',cat:'Satélite',t:'planeta',con:'Variable',ra:null,dec:null,mag:-12.7,dist:'384,400 km',sz:'31\'',d:1,
-img:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/FullMoon2010.jpg/800px-FullMoon2010.jpg',
-desc:'Nuestro satélite natural. El objeto más fácil de observar con cualquier telescopio. Cráteres, mares de lava, cordilleras y valles son visibles en detalle.',
-phys:{Diámetro:'3,474 km',Gravedad:'16.5% Tierra',Temp:'-173 a 127°C'},
-tips:['La mejor observación NO es Luna llena - cuarto creciente/menguante muestra más detalles','Observá el terminador (línea luz/sombra) para cráteres dramáticos','Con tu 127 verás cráteres de 2-3 km'],
-facts:['Se aleja 3.8 cm/año','Solo vemos el 59% de su superficie'],
-mo:[1,2,3,4,5,6,7,8,9,10,11,12],minA:5},
-
-{id:'jup',n:'Júpiter',cat:'Planeta',t:'planeta',con:'Tauro',ra:4.35,dec:21.2,mag:-2.0,dist:'5.8 UA',sz:'38"',d:1,
-img:'https://upload.wikimedia.org/wikipedia/commons/c/c1/Jupiter_New_Horizons.jpg',
-desc:'El gigante del Sistema Solar. Bandas de nubes, Gran Mancha Roja y 4 lunas galileanas visibles con cualquier telescopio.',
-phys:{Diámetro:'139,820 km',Masa:'318× Tierra',Día:'9h 56min',Lunas:'95'},
-tips:['Las 4 lunas galileanas cambian posición cada noche','Buscá las bandas ecuatoriales oscuras','La Gran Mancha Roja rota cada ~10 horas','Usá 150-200× para detalles'],
-facts:['Día más corto del Sistema Solar','La Gran Mancha Roja lleva 350+ años activa'],
-mo:[1,2,3,4,5,6,7,8,9,10,11,12],minA:15},
-
-{id:'sat',n:'Saturno',cat:'Planeta',t:'planeta',con:'Piscis',ra:23.6,dec:-5.0,mag:1.0,dist:'10.2 UA',sz:'16"',d:1,
-img:'https://upload.wikimedia.org/wikipedia/commons/c/c7/Saturn_during_Equinox.jpg',
-desc:'El señor de los anillos. El objeto más impresionante en un telescopio. Los anillos son visibles incluso con aumentos bajos.',
-phys:{Diámetro:'116,460 km',Densidad:'Flotaría en agua',Anillos:'282,000 km ext.',Lunas:'146'},
-tips:['Anillos visibles desde 30×, usá 100×+ para separarlos','Buscá la División de Cassini','Titán visible como punto brillante cerca'],
-facts:['Flotaría en agua','Un hexágono corona su polo norte'],
-mo:[1,2,3,4,5,6,7,8,9,10,11,12],minA:15},
-
-{id:'mars',n:'Marte',cat:'Planeta',t:'planeta',con:'Cáncer',ra:8.2,dec:22.0,mag:1.4,dist:'2.1 UA',sz:'5"',d:2,
-img:'https://upload.wikimedia.org/wikipedia/commons/0/0c/Mars_-_August_30_2021_-_Flickr_-_Kevin_M._Gill.png',
-desc:'El planeta rojo. Solo muestra buenos detalles cerca de la oposición (cada ~26 meses). Casquetes polares y manchas oscuras visibles.',
-phys:{Diámetro:'6,779 km',Gravedad:'38% Tierra',Día:'24h 37min'},
-tips:['Buscá los casquetes polares blancos','Las manchas oscuras son rocas','Filtro rojo mejora superficie'],
-facts:['Olympus Mons es 3× el Everest','Hay agua congelada en los polos'],
-mo:[1,2,3,4,5,6,7,8,9,10,11,12],minA:15},
-
-{id:'ven',n:'Venus',cat:'Planeta',t:'planeta',con:'Aries',ra:2.8,dec:16.0,mag:-4.2,dist:'1.2 UA',sz:'14"',d:1,
-img:'https://upload.wikimedia.org/wikipedia/commons/e/e5/Venus-real_color.jpg',
-desc:'La estrella de la mañana/tarde. El objeto más brillante después del Sol y Luna. Muestra fases como la Luna.',
-phys:{Diámetro:'12,104 km',Temp:'465°C',Día:'243 días'},
-tips:['Observá las fases de Venus','Mejor en el crepúsculo','No verás superficie (nubes densas)'],
-facts:['Gira al revés','Un día es más largo que su año'],
-mo:[1,2,3,4,5,6,7,8,9,10,11,12],minA:5},
-
-// Nebulosas
-{id:'m42',n:'Nebulosa de Orión',cat:'M42',t:'nebulosa',con:'Orión',ra:5.588,dec:-5.39,mag:4.0,dist:'1,344 al',sz:'85\'',d:1,
-img:'https://upload.wikimedia.org/wikipedia/commons/f/f3/Orion_Nebula_-_Hubble_2006_mosaic_18000.jpg',
-desc:'La nebulosa más famosa. Guardería estelar donde nacen estrellas. Visible a simple vista en la espada de Orión.',
-phys:{Tamaño:'24 años luz',Masa:'2,000 M☉',Edad:'3 millones años'},
-tips:['Usá aumentos bajos (30-50×)','Buscá el Trapecio: 4 estrellas en el centro','Filtro UHC mejora contraste'],
-facts:['Región de formación estelar más cercana','Los mayas la llamaban "fogata de la creación"'],
-mo:[11,12,1,2,3],minA:20},
-
-{id:'m8',n:'Nebulosa Laguna',cat:'M8',t:'nebulosa',con:'Sagitario',ra:18.063,dec:-24.38,mag:6.0,dist:'5,200 al',sz:'90\'',d:1,
-img:'https://upload.wikimedia.org/wikipedia/commons/b/b0/Lagoon_Nebula_%28ESO%29.jpg',
-desc:'Una de las nebulosas más grandes y brillantes. Visible a simple vista en cielos oscuros.',
-phys:{Tamaño:'110×50 al',Cúmulo:'NGC 6530'},
-tips:['Aumentos bajos para toda la nebulosa','Buscá el carril de polvo oscuro','Desde Argentina se ve alta en invierno'],
-facts:['Visible a simple vista','Las estrellas tienen 2 millones de años'],
-mo:[5,6,7,8,9],minA:15},
-
-{id:'m17',n:'Nebulosa Omega',cat:'M17',t:'nebulosa',con:'Sagitario',ra:18.346,dec:-16.18,mag:6.0,dist:'5,500 al',sz:'46\'',d:1,
-img:'https://upload.wikimedia.org/wikipedia/commons/7/72/Omega_Nebula_-_NOAO.jpg',
-desc:'Nebulosa brillante con forma de cisne o número 2. Una de las regiones HII más brillantes.',
-phys:{Tamaño:'15 al',Masa:'800 M☉'},
-tips:['Forma de checkmark o cisne','Aumentos bajos (30-50×)','Solo 2° al norte de M8'],
-facts:['Suficiente gas para 30,000 soles','Tiene 8 nombres diferentes'],
-mo:[5,6,7,8,9],minA:15},
-
-{id:'m57',n:'Nebulosa del Anillo',cat:'M57',t:'nebulosa',con:'Lyra',ra:18.893,dec:33.03,mag:8.8,dist:'2,300 al',sz:'2.5\'',d:2,
-img:'https://upload.wikimedia.org/wikipedia/commons/1/13/M57_The_Ring_Nebula.JPG',
-desc:'La nebulosa planetaria más famosa. Burbuja de gas de estrella moribunda con forma de anillo.',
-phys:{Tamaño:'1.3 al',Edad:'7,000 años'},
-tips:['Entre Beta y Gamma Lyrae','Parece dona gris-verdosa','Usá 100-150× para la forma'],
-facts:['Representa el futuro del Sol','Es burbuja vista de costado'],
-mo:[5,6,7,8,9,10],minA:30},
-
-{id:'m27',n:'Nebulosa Dumbbell',cat:'M27',t:'nebulosa',con:'Vulpecula',ra:19.994,dec:22.72,mag:7.5,dist:'1,360 al',sz:'8\'',d:1,
-img:'https://upload.wikimedia.org/wikipedia/commons/1/1e/M27_-_Dumbbell_Nebula.jpg',
-desc:'La nebulosa planetaria más brillante. Parece manzana mordida. Primera planetaria descubierta (1764).',
-phys:{Tamaño:'2.5 al',Edad:'14,600 años'},
-tips:['Visible con binoculares','Forma de mancuerna desde 50×','Mejor sin Luna'],
-facts:['Primera planetaria descubierta','100× más grande que Sistema Solar'],
-mo:[6,7,8,9,10,11],minA:25},
-
-{id:'eta',n:'Nebulosa de Carina',cat:'NGC 3372',t:'nebulosa',con:'Carina',ra:10.75,dec:-59.87,mag:3.0,dist:'7,500 al',sz:'120\'',d:1,
-img:'https://upload.wikimedia.org/wikipedia/commons/7/7a/Carina_Nebula_by_Harel_Boren_%28151851961%2C_modified%29.jpg',
-desc:'¡SOLO HEMISFERIO SUR! Una de las más grandes y brillantes. Contiene Eta Carinae, candidata a supernova.',
-phys:{Tamaño:'300+ al',Estrella:'Eta Car 4M soles'},
-tips:['¡Ventaja de tu ubicación!','ENORME: 4× Luna llena','Eta Carinae es la estrella brillante central'],
-facts:['Eta Car explotó en 1843','Podría ser supernova pronto'],
-mo:[1,2,3,4,5],minA:20},
-
-// Galaxias
-{id:'m31',n:'Galaxia Andrómeda',cat:'M31',t:'galaxia',con:'Andrómeda',ra:0.712,dec:41.27,mag:3.4,dist:'2.5M al',sz:'190\'',d:1,
-img:'https://upload.wikimedia.org/wikipedia/commons/9/98/Andromeda_Galaxy_%28with_h-alpha%29.jpg',
-desc:'El objeto más lejano visible a simple vista. Nuestra vecina más grande con 1 billón de estrellas.',
-phys:{Tamaño:'220,000 al',Masa:'1.5B M☉'},
-tips:['Visible a simple vista','Aumentos MUY bajos','M32 y M110 visibles cerca'],
-facts:['Colisionará con Vía Láctea en 4,500M años','La luz salió cuando existían primeros humanos'],
-mo:[8,9,10,11,12,1,2],minA:25},
-
-{id:'lmc',n:'Gran Nube Magallanes',cat:'LMC',t:'galaxia',con:'Dorado',ra:5.39,dec:-69.76,mag:0.9,dist:'160,000 al',sz:'645\'',d:1,
-img:'https://upload.wikimedia.org/wikipedia/commons/e/e0/Large_Magellanic_Cloud.jpg',
-desc:'¡SOLO HEMISFERIO SUR! Galaxia satélite visible a simple vista como nube brillante.',
-phys:{Tamaño:'14,000 al',Estrellas:'30,000M'},
-tips:['Visible a simple vista','Usá binoculares para verla completa','Nebulosa Tarántula espectacular'],
-facts:['Supernova 1987A explotó aquí','Nombrada por Magallanes'],
-mo:[10,11,12,1,2,3,4],minA:15},
-
-{id:'smc',n:'Pequeña Nube Magallanes',cat:'SMC',t:'galaxia',con:'Tucana',ra:0.88,dec:-72.82,mag:2.7,dist:'200,000 al',sz:'320\'',d:1,
-img:'https://upload.wikimedia.org/wikipedia/commons/9/9a/Small_Magellanic_Cloud_%28Digitized_Sky_Survey_2%29.jpg',
-desc:'Hermana menor de la LMC. Junto a ella está 47 Tucanae, creando vista espectacular.',
-phys:{Tamaño:'7,000 al',Estrellas:'3,000M'},
-tips:['Observá 47 Tucanae al lado','Visible a simple vista'],
-facts:['Conectadas por puente de gas','Se está deshilachando'],
-mo:[9,10,11,12,1,2],minA:20},
-
-{id:'ngc253',n:'Galaxia Escultor',cat:'NGC 253',t:'galaxia',con:'Escultor',ra:0.792,dec:-25.29,mag:7.1,dist:'11.4M al',sz:'28\'',d:1,
-img:'https://upload.wikimedia.org/wikipedia/commons/5/5c/Sculptor_Galaxy_by_VISTA.jpg',
-desc:'¡Perfecta para hemisferio sur! Brillante espiral de canto con intensa formación estelar.',
-phys:{Tamaño:'90,000 al'},
-tips:['Pasa alta en primavera','Forma de huso brillante','Más brillante que muchos Messier'],
-facts:['Messier no la catalogó (muy al sur)'],
-mo:[9,10,11,12,1],minA:30},
-
-{id:'cena',n:'Centaurus A',cat:'NGC 5128',t:'galaxia',con:'Centauro',ra:13.424,dec:-43.02,mag:6.8,dist:'12M al',sz:'26\'',d:2,
-img:'https://upload.wikimedia.org/wikipedia/commons/e/e9/ESO_Centaurus_A_LABOCA.jpg',
-desc:'¡Galaxia activa más cercana! Elíptica con carril de polvo oscuro único.',
-phys:{Tamaño:'60,000 al',AGN:'Sí'},
-tips:['Pasa alta en otoño','La banda de polvo es visible','Una de las más distintivas'],
-facts:['Jets de radio de 1M años luz','Resultado de colisión galáctica'],
-mo:[3,4,5,6,7],minA:30},
-
-// Cúmulos globulares
-{id:'m13',n:'Cúmulo Hércules',cat:'M13',t:'cumulo',con:'Hércules',ra:16.695,dec:36.46,mag:5.8,dist:'22,200 al',sz:'20\'',d:1,
-img:'https://upload.wikimedia.org/wikipedia/commons/8/8a/M13.jpg',
-desc:'El globular más famoso del norte. 300,000 estrellas en 145 años luz.',
-phys:{Tamaño:'145 al',Estrellas:'300,000',Edad:'11,650M años'},
-tips:['Visible a simple vista','100× resuelve estrellas','En el torso de Hércules'],
-facts:['En 1974 se envió mensaje hacia M13','Llegará en 25,000 años'],
-mo:[4,5,6,7,8,9],minA:30},
-
-{id:'ome',n:'Omega Centauri',cat:'NGC 5139',t:'cumulo',con:'Centauro',ra:13.447,dec:-47.48,mag:3.7,dist:'15,800 al',sz:'36\'',d:1,
-img:'https://upload.wikimedia.org/wikipedia/commons/1/1a/Omega_Centauri_by_ESO.jpg',
-desc:'¡EL GLOBULAR MÁS GRANDE DE LA VÍA LÁCTEA! 10 millones de estrellas. Posible núcleo de galaxia devorada.',
-phys:{Tamaño:'150 al',Estrellas:'10M',Edad:'12,000M años'},
-tips:['¡IMPERDIBLE desde Argentina!','Visible a simple vista (mag 3.7)','Más grande que Luna llena'],
-facts:['Más estrellas que algunas galaxias','Ptolomeo lo catalogó como estrella'],
-mo:[3,4,5,6,7],minA:25},
-
-{id:'47tuc',n:'47 Tucanae',cat:'NGC 104',t:'cumulo',con:'Tucana',ra:0.404,dec:-72.08,mag:4.0,dist:'14,700 al',sz:'30\'',d:1,
-img:'https://upload.wikimedia.org/wikipedia/commons/e/e9/47_Tuc.jpg',
-desc:'2do globular más brillante. Junto a la Pequeña Nube de Magallanes.',
-phys:{Tamaño:'120 al',Estrellas:'500,000'},
-tips:['Junto a SMC (pero no relacionados)','Aumentos bajos resuelven estrellas'],
-facts:['Contiene 25 púlsares de milisegundo','Casi tan viejo como el universo'],
-mo:[9,10,11,12,1,2],minA:25},
-
-{id:'m22',n:'Cúmulo Sagitario',cat:'M22',t:'cumulo',con:'Sagitario',ra:18.607,dec:-23.90,mag:5.1,dist:'10,400 al',sz:'32\'',d:1,
-img:'https://upload.wikimedia.org/wikipedia/commons/0/07/Messier_22.jpg',
-desc:'Uno de los globulares más cercanos. Fácil de resolver.',
-phys:{Tamaño:'97 al',Estrellas:'100,000'},
-tips:['Fácil de resolver','Tu 127 llega hasta el centro','Alto en invierno desde Argentina'],
-facts:['Primer globular descubierto (1665)','Tiene 2 agujeros negros'],
-mo:[5,6,7,8,9],minA:20},
-
-// Cúmulos abiertos
-{id:'m45',n:'Pléyades',cat:'M45',t:'cumulo',con:'Tauro',ra:3.791,dec:24.11,mag:1.6,dist:'444 al',sz:'110\'',d:1,
-img:'https://upload.wikimedia.org/wikipedia/commons/4/4e/Pleiades_large.jpg',
-desc:'El cúmulo más famoso. Las Siete Hermanas. Conocido desde la prehistoria.',
-phys:{Tamaño:'17 al',Estrellas:'~1,000',Edad:'100M años'},
-tips:['Aumentos MUY BAJOS','Binoculares dan mejor vista','Contá cuántas ves a simple vista'],
-facts:['Subaru significa Pléyades en japonés','Solo 100M años: bebés estelares'],
-mo:[10,11,12,1,2,3],minA:25},
-
-{id:'jewel',n:'Caja de Joyas',cat:'NGC 4755',t:'cumulo',con:'Crux',ra:12.895,dec:-60.37,mag:4.2,dist:'6,400 al',sz:'10\'',d:1,
-img:'https://upload.wikimedia.org/wikipedia/commons/1/1a/Jewel_Box_%28star_cluster%29.jpg',
-desc:'¡Joya del sur! Estrellas de colores: azules, roja central, amarillas.',
-phys:{Tamaño:'14 al',Edad:'14M años'},
-tips:['Colores visibles con telescopio pequeño','Junto a Beta Crucis','Supergigante roja destaca'],
-facts:['Herschel: "casket of precious stones"','Las azules morirán como supernovas'],
-mo:[3,4,5,6,7],minA:25},
-
-{id:'dblcl',n:'Doble Cúmulo Perseo',cat:'NGC 869/884',t:'cumulo',con:'Perseo',ra:2.333,dec:57.13,mag:3.7,dist:'7,500 al',sz:'60\'',d:1,
-img:'https://upload.wikimedia.org/wikipedia/commons/a/a5/Double_Cluster.jpg',
-desc:'Dos cúmulos lado a lado visibles a simple vista. Espectaculares juntos.',
-phys:{Tamaño:'70 al c/u',Estrellas:'300 c/u'},
-tips:['Ambos caben en un ocular','Buscá supergigantes rojas entre azules'],
-facts:['No están en Messier (demasiado obvios)','Viajan juntos por la galaxia'],
-mo:[9,10,11,12,1,2],minA:30},
-
-// Estrellas
-{id:'alb',n:'Albireo',cat:'β Cygni',t:'estrella',con:'Cygnus',ra:19.512,dec:27.96,mag:3.1,dist:'430 al',sz:'34"',d:1,
-img:'https://upload.wikimedia.org/wikipedia/commons/2/23/Albireo.jpg',
-desc:'La doble más hermosa. Contraste dorada + azul espectacular.',
-phys:{Primaria:'K3 dorada',Secundaria:'B8 azul',Sep:'34"'},
-tips:['Cualquier aumento las separa','Contraste impresionante desde 30×','El pico del Cisne'],
-facts:['Se debate si son binarias reales','Demostración de colores estelares'],
-mo:[5,6,7,8,9,10,11],minA:25},
-
-{id:'acen',n:'Alfa Centauri',cat:'α Cen',t:'estrella',con:'Centauro',ra:14.66,dec:-60.83,mag:-0.27,dist:'4.37 al',sz:'8"',d:1,
-img:'https://upload.wikimedia.org/wikipedia/commons/f/f8/Alpha_Centauri_A_and_B.jpg',
-desc:'¡El sistema estelar MÁS CERCANO! A y B visibles. Proxima tiene exoplaneta.',
-phys:{A:'Como el Sol',B:'Naranja K1',Dist:'4.37 al'},
-tips:['La separación varía (ahora ~8")','Binoculares las separan','Una de las más brillantes'],
-facts:['Proxima tiene exoplaneta habitable','Llegaríamos en 74,000 años'],
-mo:[4,5,6,7,8],minA:25},
-
-{id:'sir',n:'Sirio',cat:'α CMa',t:'estrella',con:'Can Mayor',ra:6.752,dec:-16.72,mag:-1.46,dist:'8.6 al',sz:'11"',d:3,
-img:'https://upload.wikimedia.org/wikipedia/commons/1/1e/Sirius_A_and_B_artwork.jpg',
-desc:'¡LA ESTRELLA MÁS BRILLANTE! Tiene compañera enana blanca (Sirio B) muy difícil.',
-phys:{Primaria:'A1V',Secundaria:'Enana blanca'},
-tips:['Sirio B es desafío clásico','Requiere excelente seeing','Separación ~11"'],
-facts:['Sirio B fue predicha antes de verse','Los egipcios basaban calendario en Sirio'],
-mo:[12,1,2,3,4],minA:25}
+const DATA=[
+{id:'luna',n:'Luna',cat:'Satélite Natural',t:'planeta',con:'Variable',ra:null,dec:null,mag:-12.7,dist:'384,400 km',sz:'31\'',d:1,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/FullMoon2010.jpg/800px-FullMoon2010.jpg',desc:'Nuestro satélite natural. Cráteres, mares y valles visibles con cualquier telescopio.',phys:{Diámetro:'3,474 km',Gravedad:'16.5% Tierra'},tips:['Mejor en cuarto creciente/menguante','Observá el terminador para cráteres dramáticos','Con tu 127 verás cráteres de 2-3 km'],facts:['Se aleja 3.8 cm/año','Solo vemos el 59% de su superficie'],mo:[1,2,3,4,5,6,7,8,9,10,11,12],minA:5},
+{id:'jup',n:'Júpiter',cat:'Planeta',t:'planeta',con:'Tauro',ra:4.35,dec:21.2,mag:-2.0,dist:'5.8 UA',sz:'38"',d:1,img:'https://upload.wikimedia.org/wikipedia/commons/c/c1/Jupiter_New_Horizons.jpg',desc:'El gigante del Sistema Solar. Bandas y 4 lunas galileanas visibles.',phys:{Diámetro:'139,820 km',Lunas:'95'},tips:['Las 4 lunas cambian cada noche','Buscá la Gran Mancha Roja','Usá 150-200× para detalles'],facts:['Día más corto del Sistema Solar','La Mancha Roja lleva 350+ años'],mo:[1,2,3,4,5,6,7,8,9,10,11,12],minA:15},
+{id:'sat',n:'Saturno',cat:'Planeta',t:'planeta',con:'Piscis',ra:23.6,dec:-5.0,mag:1.0,dist:'10.2 UA',sz:'16"',d:1,img:'https://upload.wikimedia.org/wikipedia/commons/c/c7/Saturn_during_Equinox.jpg',desc:'El señor de los anillos. Los anillos son visibles incluso con aumentos bajos.',phys:{Diámetro:'116,460 km',Lunas:'146'},tips:['Anillos visibles desde 30×','Buscá la División de Cassini','Titán visible cerca'],facts:['Flotaría en agua','Hexágono en polo norte'],mo:[1,2,3,4,5,6,7,8,9,10,11,12],minA:15},
+{id:'mars',n:'Marte',cat:'Planeta',t:'planeta',con:'Cáncer',ra:8.2,dec:22.0,mag:1.4,dist:'2.1 UA',sz:'5"',d:2,img:'https://upload.wikimedia.org/wikipedia/commons/0/0c/Mars_-_August_30_2021_-_Flickr_-_Kevin_M._Gill.png',desc:'El planeta rojo. Casquetes polares visibles en oposición.',phys:{Diámetro:'6,779 km',Día:'24h 37min'},tips:['Mejor cerca de oposición','Buscá casquetes polares','Filtro rojo mejora superficie'],facts:['Olympus Mons 3× Everest','Agua en los polos'],mo:[1,2,3,4,5,6,7,8,9,10,11,12],minA:15},
+{id:'ven',n:'Venus',cat:'Planeta',t:'planeta',con:'Aries',ra:2.8,dec:16.0,mag:-4.2,dist:'1.2 UA',sz:'14"',d:1,img:'https://upload.wikimedia.org/wikipedia/commons/e/e5/Venus-real_color.jpg',desc:'Estrella de la mañana/tarde. Muestra fases como la Luna.',phys:{Diámetro:'12,104 km',Temp:'465°C'},tips:['Observá las fases','Mejor en crepúsculo','No verás superficie'],facts:['Gira al revés','Día más largo que año'],mo:[1,2,3,4,5,6,7,8,9,10,11,12],minA:5},
+{id:'m42',n:'Nebulosa de Orión',cat:'M42',t:'nebulosa',con:'Orión',ra:5.588,dec:-5.39,mag:4.0,dist:'1,344 al',sz:'85\'',d:1,img:'https://upload.wikimedia.org/wikipedia/commons/f/f3/Orion_Nebula_-_Hubble_2006_mosaic_18000.jpg',desc:'La nebulosa más famosa. Guardería estelar visible a simple vista.',phys:{Tamaño:'24 al',Edad:'3M años'},tips:['Aumentos bajos (30-50×)','Buscá el Trapecio','Filtro UHC mejora'],facts:['Formación estelar más cercana','Los mayas: "fogata de la creación"'],mo:[11,12,1,2,3],minA:20},
+{id:'m8',n:'Nebulosa Laguna',cat:'M8',t:'nebulosa',con:'Sagitario',ra:18.063,dec:-24.38,mag:6.0,dist:'5,200 al',sz:'90\'',d:1,img:'https://upload.wikimedia.org/wikipedia/commons/b/b0/Lagoon_Nebula_%28ESO%29.jpg',desc:'Una de las más grandes y brillantes. Visible a simple vista.',phys:{Tamaño:'110×50 al'},tips:['Aumentos bajos','Buscá carril de polvo','Alta en invierno (Argentina)'],facts:['Visible a ojo desnudo','Estrellas de 2M años'],mo:[5,6,7,8,9],minA:15},
+{id:'m57',n:'Nebulosa del Anillo',cat:'M57',t:'nebulosa',con:'Lyra',ra:18.893,dec:33.03,mag:8.8,dist:'2,300 al',sz:'2.5\'',d:2,img:'https://upload.wikimedia.org/wikipedia/commons/1/13/M57_The_Ring_Nebula.JPG',desc:'Nebulosa planetaria con forma de anillo de humo cósmico.',phys:{Tamaño:'1.3 al'},tips:['Entre Beta y Gamma Lyrae','Parece dona gris-verdosa','100-150× para forma'],facts:['Futuro del Sol','Burbuja de costado'],mo:[5,6,7,8,9,10],minA:30},
+{id:'m27',n:'Nebulosa Dumbbell',cat:'M27',t:'nebulosa',con:'Vulpecula',ra:19.994,dec:22.72,mag:7.5,dist:'1,360 al',sz:'8\'',d:1,img:'https://upload.wikimedia.org/wikipedia/commons/1/1e/M27_-_Dumbbell_Nebula.jpg',desc:'La planetaria más brillante. Forma de manzana mordida.',phys:{Tamaño:'2.5 al'},tips:['Visible con binoculares','Forma de mancuerna desde 50×'],facts:['Primera planetaria descubierta','100× Sistema Solar'],mo:[6,7,8,9,10,11],minA:25},
+{id:'eta',n:'Nebulosa de Carina',cat:'NGC 3372',t:'nebulosa',con:'Carina',ra:10.75,dec:-59.87,mag:3.0,dist:'7,500 al',sz:'120\'',d:1,img:'https://upload.wikimedia.org/wikipedia/commons/7/7a/Carina_Nebula_by_Harel_Boren_%28151851961%2C_modified%29.jpg',desc:'¡SOLO HEMISFERIO SUR! Contiene Eta Carinae, candidata a supernova.',phys:{Tamaño:'300+ al'},tips:['¡Ventaja de tu ubicación!','4× Luna llena','Eta Car es la estrella central'],facts:['Eta Car explotó en 1843','Podría ser supernova pronto'],mo:[1,2,3,4,5],minA:20},
+{id:'m31',n:'Galaxia Andrómeda',cat:'M31',t:'galaxia',con:'Andrómeda',ra:0.712,dec:41.27,mag:3.4,dist:'2.5M al',sz:'190\'',d:1,img:'https://upload.wikimedia.org/wikipedia/commons/9/98/Andromeda_Galaxy_%28with_h-alpha%29.jpg',desc:'El objeto más lejano visible a simple vista. 1 billón de estrellas.',phys:{Tamaño:'220,000 al'},tips:['Visible a simple vista','Aumentos MUY bajos','M32 y M110 cerca'],facts:['Colisionará con Vía Láctea','La luz: época de primeros humanos'],mo:[8,9,10,11,12,1,2],minA:25},
+{id:'lmc',n:'Gran Nube Magallanes',cat:'LMC',t:'galaxia',con:'Dorado',ra:5.39,dec:-69.76,mag:0.9,dist:'160,000 al',sz:'645\'',d:1,img:'https://upload.wikimedia.org/wikipedia/commons/e/e0/Large_Magellanic_Cloud.jpg',desc:'¡SOLO HEMISFERIO SUR! Galaxia satélite visible a simple vista.',phys:{Tamaño:'14,000 al'},tips:['Visible a simple vista','Binoculares para verla completa','Nebulosa Tarántula espectacular'],facts:['Supernova 1987A aquí','Nombrada por Magallanes'],mo:[10,11,12,1,2,3,4],minA:15},
+{id:'smc',n:'Pequeña Nube Magallanes',cat:'SMC',t:'galaxia',con:'Tucana',ra:0.88,dec:-72.82,mag:2.7,dist:'200,000 al',sz:'320\'',d:1,img:'https://upload.wikimedia.org/wikipedia/commons/9/9a/Small_Magellanic_Cloud_%28Digitized_Sky_Survey_2%29.jpg',desc:'Hermana menor de LMC. 47 Tucanae al lado.',phys:{Tamaño:'7,000 al'},tips:['47 Tucanae al lado','Visible a simple vista'],facts:['Puente de gas con LMC','Se está deshilachando'],mo:[9,10,11,12,1,2],minA:20},
+{id:'cena',n:'Centaurus A',cat:'NGC 5128',t:'galaxia',con:'Centauro',ra:13.424,dec:-43.02,mag:6.8,dist:'12M al',sz:'26\'',d:2,img:'https://upload.wikimedia.org/wikipedia/commons/e/e9/ESO_Centaurus_A_LABOCA.jpg',desc:'¡Galaxia activa más cercana! Carril de polvo único.',phys:{Tamaño:'60,000 al'},tips:['Pasa alta en otoño','Banda de polvo visible'],facts:['Jets de 1M años luz','Colisión galáctica'],mo:[3,4,5,6,7],minA:30},
+{id:'ome',n:'Omega Centauri',cat:'NGC 5139',t:'cumulo',con:'Centauro',ra:13.447,dec:-47.48,mag:3.7,dist:'15,800 al',sz:'36\'',d:1,img:'https://upload.wikimedia.org/wikipedia/commons/1/1a/Omega_Centauri_by_ESO.jpg',desc:'¡EL GLOBULAR MÁS GRANDE! 10 millones de estrellas.',phys:{Estrellas:'10M'},tips:['¡IMPERDIBLE desde Argentina!','Visible a simple vista','Más grande que Luna llena'],facts:['Más que algunas galaxias','Ptolomeo: "estrella"'],mo:[3,4,5,6,7],minA:25},
+{id:'47tuc',n:'47 Tucanae',cat:'NGC 104',t:'cumulo',con:'Tucana',ra:0.404,dec:-72.08,mag:4.0,dist:'14,700 al',sz:'30\'',d:1,img:'https://upload.wikimedia.org/wikipedia/commons/e/e9/47_Tuc.jpg',desc:'2do globular más brillante. Junto a SMC.',phys:{Estrellas:'500,000'},tips:['Junto a SMC','Aumentos bajos resuelven'],facts:['25 púlsares','Casi tan viejo como universo'],mo:[9,10,11,12,1,2],minA:25},
+{id:'m13',n:'Cúmulo Hércules',cat:'M13',t:'cumulo',con:'Hércules',ra:16.695,dec:36.46,mag:5.8,dist:'22,200 al',sz:'20\'',d:1,img:'https://upload.wikimedia.org/wikipedia/commons/8/8a/M13.jpg',desc:'El globular más famoso del norte. 300,000 estrellas.',phys:{Estrellas:'300,000'},tips:['Visible a simple vista','100× resuelve estrellas'],facts:['Mensaje de 1974','Llegará en 25,000 años'],mo:[4,5,6,7,8,9],minA:30},
+{id:'m45',n:'Pléyades',cat:'M45',t:'cumulo',con:'Tauro',ra:3.791,dec:24.11,mag:1.6,dist:'444 al',sz:'110\'',d:1,img:'https://upload.wikimedia.org/wikipedia/commons/4/4e/Pleiades_large.jpg',desc:'Las Siete Hermanas. El cúmulo más famoso.',phys:{Estrellas:'~1,000'},tips:['Aumentos MUY BAJOS','Binoculares mejor','Contá cuántas ves'],facts:['Subaru = Pléyades','100M años: bebés'],mo:[10,11,12,1,2,3],minA:25},
+{id:'jewel',n:'Caja de Joyas',cat:'NGC 4755',t:'cumulo',con:'Crux',ra:12.895,dec:-60.37,mag:4.2,dist:'6,400 al',sz:'10\'',d:1,img:'https://upload.wikimedia.org/wikipedia/commons/1/1a/Jewel_Box_%28star_cluster%29.jpg',desc:'¡Joya del sur! Estrellas de colores variados.',phys:{Edad:'14M años'},tips:['Colores visibles','Junto a Beta Crucis'],facts:['Herschel: "precious stones"','Azules serán supernovas'],mo:[3,4,5,6,7],minA:25},
+{id:'alb',n:'Albireo',cat:'β Cygni',t:'estrella',con:'Cygnus',ra:19.512,dec:27.96,mag:3.1,dist:'430 al',sz:'34"',d:1,img:'https://upload.wikimedia.org/wikipedia/commons/2/23/Albireo.jpg',desc:'La doble más hermosa. Contraste dorada + azul.',phys:{Sep:'34"'},tips:['Cualquier aumento separa','Contraste desde 30×'],facts:['¿Binarias reales?','Demo de colores estelares'],mo:[5,6,7,8,9,10,11],minA:25},
+{id:'acen',n:'Alfa Centauri',cat:'α Cen',t:'estrella',con:'Centauro',ra:14.66,dec:-60.83,mag:-0.27,dist:'4.37 al',sz:'8"',d:1,img:'https://upload.wikimedia.org/wikipedia/commons/f/f8/Alpha_Centauri_A_and_B.jpg',desc:'¡El sistema MÁS CERCANO! Proxima tiene exoplaneta.',phys:{Dist:'4.37 al'},tips:['Separación ~8"','Binoculares separan'],facts:['Proxima: exoplaneta habitable','74,000 años de viaje'],mo:[4,5,6,7,8],minA:25},
+{id:'sir',n:'Sirio',cat:'α CMa',t:'estrella',con:'Can Mayor',ra:6.752,dec:-16.72,mag:-1.46,dist:'8.6 al',sz:'11"',d:3,img:'https://upload.wikimedia.org/wikipedia/commons/1/1e/Sirius_A_and_B_artwork.jpg',desc:'¡LA MÁS BRILLANTE! Enana blanca compañera (difícil).',phys:{Tipo:'A1V + WD'},tips:['Sirio B es desafío','Requiere excelente seeing'],facts:['Sirio B predicha','Egipcios: calendario'],mo:[12,1,2,3,4],minA:25}
 ];
 
-// ========== VARIABLES ==========
-let lat = -32.48, lon = -58.23;
-let filter = 'visible';
+let lat=-32.48,lon=-58.23,filter='visible';
 
-// ========== ASTRONOMÍA CORREGIDA ==========
-function toRad(d) { return d * Math.PI / 180; }
-function toDeg(r) { return r * 180 / Math.PI; }
+function toRad(d){return d*Math.PI/180}
+function toDeg(r){return r*180/Math.PI}
+function getJD(d=new Date()){const y=d.getUTCFullYear(),m=d.getUTCMonth()+1,day=d.getUTCDate()+d.getUTCHours()/24+d.getUTCMinutes()/1440;let Y=y,M=m;if(M<=2){Y--;M+=12}const A=Math.floor(Y/100),B=2-A+Math.floor(A/4);return Math.floor(365.25*(Y+4716))+Math.floor(30.6001*(M+1))+day+B-1524.5}
+function getLST(d,lng){const jd=getJD(d),T=(jd-2451545)/36525;let g=280.46061837+360.98564736629*(jd-2451545)+0.000387933*T*T;return((g%360+360)%360+lng+360)%360}
+function getAlt(ra,dec,d=new Date()){const lst=getLST(d,lon),ha=((lst-ra*15)%360+360)%360-(lst-ra*15>180?360:0);return toDeg(Math.asin(Math.sin(toRad(dec))*Math.sin(toRad(lat))+Math.cos(toRad(dec))*Math.cos(toRad(lat))*Math.cos(toRad(ha))))}
+function isVis(o,d=new Date()){if(o.ra===null)return d.getHours()>=20||d.getHours()<=5;return getAlt(o.ra,o.dec,d)>(o.minA||15)}
+function getVis(o){const now=new Date(),gm=o.mo.includes(now.getMonth()+1),vn=isVis(o,now);let ba=-90,bh=0;for(let h=18;h<=30;h++){const t=new Date(now);t.setHours(h%24,0,0,0);if(h>=24)t.setDate(t.getDate()+1);const a=o.ra===null?45:getAlt(o.ra,o.dec,t);if(a>ba){ba=a;bh=h%24}}let sh=null,eh=null;for(let h=18;h<=30;h++){const t=new Date(now);t.setHours(h%24,0,0,0);if(h>=24)t.setDate(t.getDate()+1);if(o.ra===null||getAlt(o.ra,o.dec,t)>(o.minA||15)){if(sh===null)sh=h%24;eh=h%24}}const rg=sh!==null?`${String(sh).padStart(2,'0')}:00-${String((eh+1)%24).padStart(2,'0')}:00`:'—';return{vn,gm,bh,ba:Math.round(ba),rg,sc:vn?3:(gm&&ba>20?2:(ba>0?1:0))}}
 
-function getJD(date = new Date()) {
-    const y = date.getUTCFullYear();
-    const m = date.getUTCMonth() + 1;
-    const d = date.getUTCDate() + date.getUTCHours()/24 + date.getUTCMinutes()/1440 + date.getUTCSeconds()/86400;
-    
-    let Y = y, M = m;
-    if (M <= 2) { Y--; M += 12; }
-    
-    const A = Math.floor(Y / 100);
-    const B = 2 - A + Math.floor(A / 4);
-    
-    return Math.floor(365.25 * (Y + 4716)) + Math.floor(30.6001 * (M + 1)) + d + B - 1524.5;
-}
-
-function getLST(date, longitude) {
-    const jd = getJD(date);
-    const T = (jd - 2451545.0) / 36525;
-    
-    let gmst = 280.46061837 + 360.98564736629 * (jd - 2451545.0) + 0.000387933 * T * T - T * T * T / 38710000;
-    gmst = ((gmst % 360) + 360) % 360;
-    
-    let lst = gmst + longitude;
-    lst = ((lst % 360) + 360) % 360;
-    
-    return lst;
-}
-
-function getAltitude(ra, dec, date = new Date()) {
-    const lst = getLST(date, lon);
-    const raGrados = ra * 15;
-    
-    let ha = lst - raGrados;
-    ha = ((ha % 360) + 360) % 360;
-    if (ha > 180) ha -= 360;
-    
-    const haRad = toRad(ha);
-    const decRad = toRad(dec);
-    const latRad = toRad(lat);
-    
-    const sinAlt = Math.sin(decRad) * Math.sin(latRad) + Math.cos(decRad) * Math.cos(latRad) * Math.cos(haRad);
-    const alt = toDeg(Math.asin(Math.max(-1, Math.min(1, sinAlt))));
-    
-    return alt;
-}
-
-function isVisible(obj, date = new Date()) {
-    if (obj.ra === null) {
-        const hour = date.getHours();
-        return hour >= 20 || hour <= 5;
-    }
-    const alt = getAltitude(obj.ra, obj.dec, date);
-    return alt > (obj.minA || 15);
-}
-
-function getVisInfo(obj) {
-    const now = new Date();
-    const month = now.getMonth() + 1;
-    const goodMonth = obj.mo.includes(month);
-    const visNow = isVisible(obj, now);
-    
-    let bestAlt = -90;
-    let bestHour = 0;
-    
-    for (let h = 18; h <= 30; h++) {
-        const testDate = new Date(now);
-        testDate.setHours(h % 24, 0, 0, 0);
-        if (h >= 24) testDate.setDate(testDate.getDate() + 1);
-        
-        let alt;
-        if (obj.ra === null) {
-            alt = 45;
-        } else {
-            alt = getAltitude(obj.ra, obj.dec, testDate);
-        }
-        
-        if (alt > bestAlt) {
-            bestAlt = alt;
-            bestHour = h % 24;
-        }
-    }
-    
-    let startH = null, endH = null;
-    for (let h = 18; h <= 30; h++) {
-        const testDate = new Date(now);
-        testDate.setHours(h % 24, 0, 0, 0);
-        if (h >= 24) testDate.setDate(testDate.getDate() + 1);
-        
-        const visible = obj.ra === null ? true : getAltitude(obj.ra, obj.dec, testDate) > (obj.minA || 15);
-        
-        if (visible) {
-            if (startH === null) startH = h % 24;
-            endH = h % 24;
-        }
-    }
-    
-    const range = startH !== null ? 
-        `${startH.toString().padStart(2,'0')}:00 - ${(endH+1).toString().padStart(2,'0')}:00` : 
-        'No visible';
-    
-    let score = 0;
-    if (visNow) score = 3;
-    else if (goodMonth && bestAlt > 20) score = 2;
-    else if (bestAlt > 0) score = 1;
-    
-    return { visNow, goodMonth, bestHour, bestAlt: Math.round(bestAlt), range, score };
-}
-
-// ========== RENDER ==========
-function render() {
-    const grid = document.getElementById('grid');
-    const sortBy = document.getElementById('sort').value;
-    
-    let list = OBJ.map(o => ({...o, vis: getVisInfo(o)}));
-    
-    if (filter === 'visible') {
-        list = list.filter(o => o.vis.visNow);
-    } else if (filter !== 'all') {
-        list = list.filter(o => o.t === filter);
-    }
-    
-    list.sort((a, b) => {
-        if (sortBy === 'vis') return b.vis.score - a.vis.score;
-        if (sortBy === 'mag') return a.mag - b.mag;
-        return a.n.localeCompare(b.n);
-    });
-    
-    document.getElementById('count').textContent = `${list.length} objetos`;
-    
-    if (list.length === 0) {
-        grid.innerHTML = '<div class="loading">No hay objetos con este filtro ahora.<br>Probá "Todos" o esperá a que oscurezca.</div>';
-        return;
-    }
-    
-    grid.innerHTML = list.map(o => `
-        <div class="card" onclick="openModal('${o.id}')">
-            <img class="card-img" src="${o.img}" alt="${o.n}" loading="lazy" onerror="this.style.background='#111'">
+function render(){
+    const c=document.getElementById('cards');
+    let list=DATA.map(o=>({...o,v:getVis(o)}));
+    if(filter==='visible')list=list.filter(o=>o.v.vn);
+    else if(filter!=='all')list=list.filter(o=>o.t===filter);
+    list.sort((a,b)=>b.v.sc-a.v.sc||a.mag-b.mag);
+    document.getElementById('count').textContent=`${list.length} objeto${list.length!==1?'s':''}`;
+    if(!list.length){c.innerHTML=`<div class="empty"><div class="empty-icon">🌙</div>No hay objetos visibles ahora.<br>Probá "Todos" o esperá que oscurezca.</div>`;return}
+    c.innerHTML=list.map(o=>`
+        <div class="card" onclick="openM('${o.id}')">
+            <img class="card-img" src="${o.img}" loading="lazy" onerror="this.style.background='#2c2c2e'">
             <div class="card-body">
-                <div class="card-top">
-                    <div>
-                        <div class="card-name">${o.n}</div>
-                        <div class="card-cat">${o.cat}</div>
-                    </div>
-                    <span class="badge badge-${o.t}">${o.t}</span>
+                <div class="card-row1">
+                    <div class="card-name">${o.n}</div>
+                    <span class="card-type type-${o.t}">${o.t}</span>
                 </div>
-                <div class="card-meta">
-                    <span>📍 ${o.con}</span>
+                <div class="card-cat">${o.cat} · ${o.con}</div>
+                <div class="card-row2">
                     <span>✨ ${o.mag}</span>
                     <span>📏 ${o.dist}</span>
                 </div>
-                <div class="card-foot">
-                    <div class="vis ${o.vis.visNow ? 'yes' : (o.vis.score >= 2 ? 'soon' : 'no')}">
-                        <span class="vis-dot"></span>
-                        ${o.vis.visNow ? 'Visible ahora' : (o.vis.score >= 2 ? 'Visible esta noche' : 'No visible hoy')}
-                    </div>
-                    <div class="diff d${o.d}"><span></span><span></span><span></span></div>
-                </div>
-                <div class="card-time">
-                    Mejor: ${o.vis.bestHour}:00 (alt ${o.vis.bestAlt}°) · ${o.vis.range}
+                <div class="card-status status-${o.v.vn?'visible':(o.v.sc>=2?'tonight':'no')}">
+                    <span class="status-dot"></span>
+                    <span class="status-text">${o.v.vn?'Visible ahora':(o.v.sc>=2?'Esta noche':'No visible')}</span>
+                    <span class="status-time">${o.v.bh}:00 · ${o.v.ba}°</span>
                 </div>
             </div>
         </div>
-    `).join('');
-}
+    `).join('')}
 
-function openModal(id) {
-    const o = OBJ.find(x => x.id === id);
-    if (!o) return;
-    
-    const v = getVisInfo(o);
-    document.getElementById('mImg').src = o.img;
-    
-    document.getElementById('mBody').innerHTML = `
-        <div class="modal-head">
-            <div>
-                <div class="modal-name">${o.n}</div>
-                <div class="modal-cat">${o.cat} · ${o.con}</div>
-            </div>
-            <button class="close" onclick="closeModal()">×</button>
+function openM(id){
+    const o=DATA.find(x=>x.id===id);if(!o)return;
+    const v=getVis(o);
+    document.getElementById('mImg').src=o.img;
+    document.getElementById('mBody').innerHTML=`
+        <div class="modal-header">
+            <div class="modal-name">${o.n}</div>
+            <div class="modal-cat">${o.cat} · ${o.con}</div>
         </div>
-        
         <div class="info-grid">
-            <div class="info-box"><div class="info-label">Magnitud</div><div class="info-val">${o.mag}</div></div>
-            <div class="info-box"><div class="info-label">Distancia</div><div class="info-val">${o.dist}</div></div>
-            <div class="info-box"><div class="info-label">Tamaño</div><div class="info-val">${o.sz}</div></div>
-            <div class="info-box"><div class="info-label">Dificultad</div><div class="info-val">${['','Fácil','Moderado','Difícil'][o.d]}</div></div>
-            <div class="info-box"><div class="info-label">Mejor hora</div><div class="info-val">${v.bestHour}:00</div></div>
-            <div class="info-box"><div class="info-label">Altitud máx</div><div class="info-val">${v.bestAlt}°</div></div>
-            <div class="info-box"><div class="info-label">Rango visible</div><div class="info-val">${v.range}</div></div>
-            <div class="info-box"><div class="info-label">Mejores meses</div><div class="info-val">${o.mo.slice(0,4).map(m=>['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'][m]).join(', ')}</div></div>
+            <div class="info-box"><div class="info-label">Magnitud</div><div class="info-value">${o.mag}</div></div>
+            <div class="info-box"><div class="info-label">Distancia</div><div class="info-value">${o.dist}</div></div>
+            <div class="info-box"><div class="info-label">Tamaño</div><div class="info-value">${o.sz}</div></div>
+            <div class="info-box"><div class="info-label">Mejor hora</div><div class="info-value">${v.bh}:00</div></div>
+            <div class="info-box"><div class="info-label">Altitud máx</div><div class="info-value">${v.ba}°</div></div>
+            <div class="info-box"><div class="info-label">Visible</div><div class="info-value">${v.rg}</div></div>
         </div>
-        
-        ${o.phys ? `
-        <div class="section">
-            <div class="section-title">Datos físicos</div>
-            <div class="info-grid">
-                ${Object.entries(o.phys).map(([k,val]) => `
-                    <div class="info-box"><div class="info-label">${k}</div><div class="info-val">${val}</div></div>
-                `).join('')}
-            </div>
-        </div>
-        ` : ''}
-        
         <div class="section">
             <div class="section-title">Descripción</div>
             <div class="section-text">${o.desc}</div>
         </div>
-        
         <div class="section">
-            <div class="section-title">🔭 Tips para Celestron 127</div>
-            <ul class="tips">
-                ${o.tips.map(t => `<li>${t}</li>`).join('')}
-            </ul>
+            <div class="section-title">Tips Celestron 127</div>
+            <div class="tips-box">${o.tips.map(t=>`<div class="tip"><span class="tip-icon">→</span>${t}</div>`).join('')}</div>
         </div>
-        
         <div class="section">
-            <div class="section-title">💡 Datos curiosos</div>
-            <div class="facts">
-                ${o.facts.map(f => `<div class="fact">${f}</div>`).join('')}
-            </div>
+            <div class="section-title">Datos curiosos</div>
+            <div class="facts-grid">${o.facts.map(f=>`<div class="fact">${f}</div>`).join('')}</div>
         </div>
     `;
-    
     document.getElementById('modal').classList.add('open');
-}
+    document.body.style.overflow='hidden'}
 
-function closeModal() {
-    document.getElementById('modal').classList.remove('open');
-}
+function closeModal(){document.getElementById('modal').classList.remove('open');document.body.style.overflow=''}
 
-// ========== FILTROS ==========
-document.getElementById('filters').onclick = e => {
-    if (e.target.classList.contains('filter')) {
-        document.querySelectorAll('.filter').forEach(f => f.classList.remove('active'));
-        e.target.classList.add('active');
-        filter = e.target.dataset.f;
-        render();
-    }
-};
+function setFilter(f){
+    filter=f;
+    document.querySelectorAll('.pill').forEach(p=>p.classList.toggle('active',p.dataset.f===f));
+    document.querySelectorAll('.nav-btn').forEach((b,i)=>b.classList.toggle('active',i===(f==='visible'?0:1)));
+    render()}
 
-// ========== UBICACIÓN ==========
-function getLoc() {
-    if (navigator.geolocation) {
-        document.getElementById('loc').textContent = '📍 Obteniendo...';
-        navigator.geolocation.getCurrentPosition(
-            pos => {
-                lat = pos.coords.latitude;
-                lon = pos.coords.longitude;
-                document.getElementById('loc').textContent = `📍 ${lat.toFixed(2)}°, ${lon.toFixed(2)}°`;
-                
-                fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`)
-                    .then(r => r.json())
-                    .then(d => {
-                        const city = d.address?.city || d.address?.town || d.address?.village || '';
-                        if (city) document.getElementById('loc').textContent = `📍 ${city}`;
-                    }).catch(() => {});
-                
-                render();
-                updateAstro();
-            },
-            () => {
-                document.getElementById('loc').textContent = '📍 C. del Uruguay (default)';
-                render();
-            }
-        );
-    }
-}
+document.getElementById('pills').onclick=e=>{if(e.target.classList.contains('pill'))setFilter(e.target.dataset.f)}
 
-// ========== RELOJ ==========
-function updateClock() {
-    document.getElementById('clock').textContent = new Date().toLocaleTimeString('es-AR', {hour:'2-digit', minute:'2-digit'});
-}
+function getLoc(){
+    document.getElementById('loc').textContent='📍 Obteniendo...';
+    navigator.geolocation?.getCurrentPosition(p=>{
+        lat=p.coords.latitude;lon=p.coords.longitude;
+        fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`).then(r=>r.json()).then(d=>{
+            document.getElementById('loc').textContent=`📍 ${d.address?.city||d.address?.town||'Tu ubicación'}`
+        }).catch(()=>document.getElementById('loc').textContent=`📍 ${lat.toFixed(1)}°, ${lon.toFixed(1)}°`);
+        render()
+    },()=>{document.getElementById('loc').textContent='📍 C. del Uruguay';render()})}
 
-// ========== ASTRO ==========
-function getMoonPhase() {
-    const d = new Date();
-    const lp = 2551443;
-    const now = d.getTime() / 1000;
-    const newMoon = 592500;
-    const phase = ((now - newMoon) % lp) / lp;
-    
-    if (phase < 0.03 || phase > 0.97) return {n:'Nueva',i:'🌑',p:0};
-    if (phase < 0.22) return {n:'Creciente',i:'🌒',p:Math.round(phase*4*100)};
-    if (phase < 0.28) return {n:'Cuarto Crec.',i:'🌓',p:50};
-    if (phase < 0.47) return {n:'Gibosa Crec.',i:'🌔',p:Math.round(50+(phase-0.25)*200)};
-    if (phase < 0.53) return {n:'Llena',i:'🌕',p:100};
-    if (phase < 0.72) return {n:'Gibosa Meng.',i:'🌖',p:Math.round(100-(phase-0.5)*200)};
-    if (phase < 0.78) return {n:'Cuarto Meng.',i:'🌗',p:50};
-    return {n:'Menguante',i:'🌘',p:Math.round((1-phase)*4*100)};
-}
+function updateTime(){document.getElementById('time').textContent=new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'})}
 
-function updateAstro() {
-    const m = getMoonPhase();
-    document.getElementById('astroBody').innerHTML = `
-        <div class="astro-grid">
-            <div class="astro-item">
-                <div class="astro-icon">${m.i}</div>
-                <div class="astro-label">Luna</div>
-                <div class="astro-val">${m.n}</div>
-            </div>
-            <div class="astro-item">
-                <div class="astro-icon">💡</div>
-                <div class="astro-label">Iluminación</div>
-                <div class="astro-val">${m.p}%</div>
-            </div>
-            <div class="astro-item">
-                <div class="astro-icon">${m.p < 30 ? '🌟' : '😐'}</div>
-                <div class="astro-label">Cielo</div>
-                <div class="astro-val">${m.p < 30 ? 'Excelente' : (m.p < 60 ? 'Bueno' : 'Regular')}</div>
-            </div>
-        </div>
-    `;
-}
-
-// ========== INIT ==========
-document.addEventListener('DOMContentLoaded', () => {
-    getLoc();
-    updateClock();
-    updateAstro();
-    setInterval(updateClock, 60000);
-    setInterval(render, 300000);
-});
-
-document.getElementById('modal').onclick = e => {
-    if (e.target.id === 'modal') closeModal();
-};
-document.onkeydown = e => { if (e.key === 'Escape') closeModal(); };
+document.addEventListener('DOMContentLoaded',()=>{getLoc();updateTime();setInterval(updateTime,60000)});
+document.getElementById('modal').onclick=e=>{if(e.target.id==='modal')closeModal()};
+document.onkeydown=e=>{if(e.key==='Escape')closeModal()};
 </script>
 
 </body>
